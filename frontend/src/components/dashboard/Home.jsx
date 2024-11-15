@@ -3,6 +3,7 @@ import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, Outlet } from "react-router-dom";
 import { Logout } from "../redux/reducers/auth";
+import events from "../events/events";
 import axios from "axios";
 import Posts from "../posts/Posts";
 import Side from "./Side";
@@ -39,6 +40,10 @@ const Home = () => {
         </div>
         <div className="content">
           <Outlet />
+        </div>
+        <div className="events">
+          <h2>Events</h2>
+          <events userId={userId} token={token} />
         </div>
         <div className="messages">messages here</div>
       </div>

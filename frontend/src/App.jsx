@@ -7,7 +7,8 @@ import Home from "./components/dashboard/Home";
 import Profile from "./components/profile/Profile";
 import Forget from "./components/forgetPassword/Forget";
 import Posts from "./components/posts/Posts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
   const themes = ["light", "dark", "blue", "green"];
