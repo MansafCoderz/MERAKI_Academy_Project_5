@@ -58,6 +58,8 @@ const Notification = ({ socket }) => {
           icon={<AiFillBell />}
           className="notification-icon"
           onClick={() => {
+            console.log("in");
+            
             setCount(0);
             setShowNote(!showNote);
           }}

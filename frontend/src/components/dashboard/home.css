@@ -42,11 +42,12 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  left: 10%;
 }
 
 .notification {
   position: relative;
-  left: 90%;
+  left: 10%;
   margin-left: 10px;
 }
 

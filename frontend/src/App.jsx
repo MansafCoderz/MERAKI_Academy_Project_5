@@ -12,7 +12,7 @@ import Comments from "./components/comments/Comments";
 import SearchBar from "./components/search/Search";
 import Followers from "./components/profile/Followers";
 import NextStep from "./components/forgetPassword/NextStep";
-import SavedPost from "./components/saved Post/savedPost";
+import SavedPost from "./components/saved Post/SavedPost";
 import Edit from "./components/profile/Edit";
 import AdminDashBoard from "./components/AdminPanel/AdminDashBoard/AdminDashBoard";
 import AdminUsers from "./components/AdminPanel/AdminUsers/AdminUsers";
