@@ -8,7 +8,7 @@ const {
   updatePostById,
   SoftDeletePostById,
   hardDeletedPostById,
-  getSavedPots,
+  getSavedPosts,
   savePost,
   removeFromSaved
 } = require("../controllers/posts");
@@ -21,7 +21,7 @@ postsRouter.get('/:post_id/post' , authentication , getPostById)
 postsRouter.get('/:user_id/user' , authentication , getPostByUser)
 
 
-postsRouter.get('/saved' , authentication , getSavedPots)
+postsRouter.get('/saved' , authentication , getSavedPosts)
 postsRouter.post('/add&save/:id' , authentication , savePost)
 
 postsRouter.put('/:post_id' , authentication , updatePostById)

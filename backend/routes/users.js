@@ -14,8 +14,6 @@ const {
   getAllUsersFoAdmin,
   isLogin,
   isNotLogin,
-  createUserByGoogle,
-  LoginByGoogle,
 } = require("../controllers/users");
 
 const authentication = require("../middleware/authentication");
@@ -33,7 +31,6 @@ usersRouter.put("/:id", authentication, updateUserById);
 usersRouter.put("/sd/:id", authentication, SoftDeleteUserById);
 usersRouter.delete("/hd/:id", authentication, hardDeletedUserById);
 
-module.exports = usersRouter;
 //reset password
 usersRouter.put("/login/re/", ResetPassByEmail);
 
@@ -41,6 +38,7 @@ usersRouter.put("/islogin/true/:userId", isLogin);
 
 usersRouter.put("/isNotlogin/false/:userId", isNotLogin);
 
+module.exports = usersRouter;
 /* 
 register/Admin
 {

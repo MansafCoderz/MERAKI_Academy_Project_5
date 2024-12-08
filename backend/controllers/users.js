@@ -15,7 +15,6 @@ const Register = async (req, res) => {
     country,
     birth_date,
     bio,
-    
   } = req.body;
 
   const role_id = 2; //! create admin then switch to user
@@ -40,7 +39,7 @@ const Register = async (req, res) => {
     country,
     birth_date,
     bio,
-   
+
     role_id,
   ];
 
@@ -54,7 +53,7 @@ const Register = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    
+
     res.status(409).json({
       success: false,
       message: "The email already exists",
@@ -73,8 +72,6 @@ const login = async (req, res) => {
       try {
         const valid = await bcrypt.compare(password, result.rows[0].password);
         if (valid) {
-         
-          
           const payload = {
             userId: result.rows[0].user_id,
             role_id: result.rows[0].role_id,
@@ -93,7 +90,6 @@ const login = async (req, res) => {
             throw Error;
           }
         } else {
-         
           res.status(403).json({
             success: false,
             message: `The email doesn’t exist or the password you’ve entered is incorrect`,
@@ -196,7 +192,7 @@ WHERE u.user_id=$1 AND u.is_deleted=0`;
 };
 
 const getUserByUserName = async (req, res) => {
-  const  searchUser  = req.params.userName;
+  const searchUser = req.params.userName;
 
   const query = `SELECT * FROM users where user_name=$1 And is_deleted=0`;
 
@@ -279,7 +275,7 @@ const updateUserById = async (req, res) => {
     birth_date,
     profile_image,
     bio,
-    is_deleted
+    is_deleted,
   } = req.body;
 
   let updatedPassword = "";
@@ -324,8 +320,6 @@ const updateUserById = async (req, res) => {
 const ResetPassByEmail = async (req, res) => {
   const { email } = req.query;
   const { password } = req.body;
-  // console.log(email);
-  // console.log(password);
 
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -357,7 +351,7 @@ const SoftDeleteUserById = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "Deleted successfully",
-        result:result.rows
+        result: result.rows,
       });
     } else {
       res.status(200).json({
@@ -383,7 +377,7 @@ const hardDeletedUserById = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "Deleted successfully",
-        result:result.rows
+        result: result.rows,
       });
     } else {
       res.status(200).json({
@@ -448,5 +442,4 @@ module.exports = {
   getAllUsersFoAdmin,
   isLogin,
   isNotLogin,
-  
 };

@@ -1,6 +1,6 @@
 .parentLoginAdmin {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr ;
   /* width: 1000px; */
   height: 9em;
   align-items: center;
@@ -81,7 +81,7 @@
 }
 @media screen and (min-width: 1000px) {
   .parentLoginAdmin {
-    width: 50em;
+    width: 64em;
   }
   .innerLoginAdmin {
     padding: 2em;

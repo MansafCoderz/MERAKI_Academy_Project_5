@@ -12,9 +12,8 @@ const Notification = ({ socket }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    socket?.on("notification", (data) => {
-      console.log("from notify", data);
-      setNote((prev) => [...prev, data]);
+    socket?.on("notification", (data) => {      
+      setNote((prev) => [...prev, data].reverse());
       setCount((prev) => prev + 1);
     });
 
@@ -31,7 +30,6 @@ const Notification = ({ socket }) => {
         },
       })
       .then((result) => {
-        // console.log(result);
         setNote(result.data.result);
       })
       .catch((err) => {
@@ -40,7 +38,7 @@ const Notification = ({ socket }) => {
 
     return () => {
     };
-  }, [note]);
+  }, []);
   const formatRelativeTime = (timestamp) => {
     const date = new Date(timestamp);
     const offset = date.getTimezoneOffset();
@@ -57,7 +55,7 @@ const Notification = ({ socket }) => {
           size="large"
           icon={<AiFillBell />}
           className="notification-icon"
-          onClick={() => {
+          onClick={() => {            
             setCount(0);
             setShowNote(!showNote);
           }}

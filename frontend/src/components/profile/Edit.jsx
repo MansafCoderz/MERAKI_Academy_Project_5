@@ -14,7 +14,6 @@ import {
 } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
 import "./edit.css";
-import { Navigate } from "react-router-dom";
 
 const { Title } = Typography;
 

@@ -12,7 +12,7 @@ pool
     console.log(err);
   });
 
-const createDataBase = async () => {
+const createDataBaseTables = async () => {
   const query = `
 create table roles(
 role_id SERIAL not null,
@@ -174,18 +174,6 @@ CREATE TABLE contact_us (
   }
 };
 
-// createDataBase()
+// createDataBaseTables()
 
 module.exports = { pool };
-
-/* 
-
-CREATE TABLE savedPost (
- id serial Primary key,
- post_id integer ,
- user_id integer,
-saved_at timestamp default now(),
- foreign key (post_id) references posts.post_id,
- foreign key (user_id) references users.user_id
-)
-*/

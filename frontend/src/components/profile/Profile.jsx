@@ -36,8 +36,7 @@ import {
 } from "@ant-design/icons";
 import "./Profile.css";
 import Like from "../likes/Like";
-import Followers from "./Followers";
-import { SetUserId, setVisitId } from "../redux/reducers/auth";
+import { setVisitId } from "../redux/reducers/auth";
 
 const { Title, Paragraph } = Typography;
 
@@ -84,39 +83,12 @@ const ProfilePage = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((result) => {
-        // console.log(result.data.Post);
-        
-        dispatch(setPosts(result.data.Post));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [posts]);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/followers/${userId}/following`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((result) => {
-        setFollowing(result.data.data?.length);
-        dispatch(setVisitId(userId))
+        dispatch(setPosts(result.data.Post || []));
       })
       .catch((err) => {
         console.log(err);
       });
 
-    axios
-      .get(`http://localhost:5000/followers/${userId}/follower`)
-      .then((result) => {
-        setFollower(result.data.data?.length);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [user]);
-
-  useEffect(() => {
     axios
       .get("http://localhost:5000/posts/saved", {
         headers: { Authorization: `Bearer ${token}` },
@@ -132,6 +104,29 @@ const ProfilePage = () => {
       });
   }, [posts]);
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/followers/${userId}/following`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((result) => {
+        setFollowing(result.data.data?.length);
+        dispatch(setVisitId(userId));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    axios
+      .get(`http://localhost:5000/followers/${userId}/follower`)
+      .then((result) => {
+        setFollower(result.data.data?.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [user]);
+
   const handleAddPost = () => {
     if (
       postInfo.body !== null ||
@@ -144,7 +139,10 @@ const ProfilePage = () => {
         })
         .then((res) => {
           dispatch(createPost(res.data.post[0]));
-          setAddPost({});
+          message.success("Post created successfully!");
+          setAddPost({ body: "", image: null, video: null });
+          setVideoList([]);
+          setFileList([]);
         })
         .catch((err) => {
           console.error(err);
@@ -225,7 +223,7 @@ const ProfilePage = () => {
       const index = fileList.indexOf(file);
       const newFileList = fileList.slice();
       fileList.splice(index, 1);
-      setFileList(fileList);
+      setFileList([]);
     },
     beforeUpload: (file) => {
       setFileList([...fileList, file]);
@@ -258,7 +256,7 @@ const ProfilePage = () => {
       const index = videoList.indexOf(video);
       const newFileList = videoList.slice();
       videoList.splice(index, 1);
-      setVideoList(videoList);
+      setVideoList([]);
       setAddPost({ ...addPost, video: null });
     },
     beforeUpload: (video) => {
@@ -266,10 +264,6 @@ const ProfilePage = () => {
       return false;
     },
     onChange: (video) => {
-      console.log(video);
-      console.log(videoList);
-
-      console.log(addPost);
       if (!videoList[0]) return;
 
       const data = new FormData();
@@ -291,24 +285,6 @@ const ProfilePage = () => {
     },
     videoList,
   };
-
-  const handleUnfollow = () => {
-    axios
-      .delete(`http://localhost:5000/unfollow/${user[0]?.user_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(() => {
-        setIsFollowing(false);
-        message.success("You have unfollowed this user.");
-      })
-      .catch((err) => {
-        console.error(err);
-        message.error("Failed to unfollow.");
-      });
-  };
-
 
   return (
     <div className="profile-container">
@@ -424,9 +400,8 @@ const ProfilePage = () => {
       )}
       <br /> <br /> <br /> <br />
       <div className="posts-section">
-
-       {localStorage.getItem("user_id")==userId && <h3>Your Posts</h3>} 
-
+        {localStorage.getItem("user_id") == userId && <h3>Your Posts</h3>}
+        <br></br>
         {posts?.map((post, index) => (
           <div className="post-card" key={index}>
             <Row>
@@ -480,7 +455,6 @@ const ProfilePage = () => {
                 )}
                 {post?.user_id == userId && (
                   <div className="post-actions">
-                   
                     {updateClicked && postId === post?.post_id && (
                       <>
                         <Input
@@ -500,7 +474,6 @@ const ProfilePage = () => {
                         </Button>
                       </>
                     )}
-                  
                   </div>
                 )}
               </Col>
@@ -535,61 +508,55 @@ const ProfilePage = () => {
               >
                 Comments
               </Button>
-              {!savedPost.includes(post.post_id)?
-               <Button
-               icon={<SaveOutlined />}
-               type="link"
-               onClick={() => handleAddSave(post.post_id)}
-               style={{
-                 color: "#28a745",
-                 fontSize: "18px",
-               }}
-             >
-               Save
-             </Button>
-             :
-             <Button
-             icon={<SaveOutlined />}
-             type="link"
-            disabled
-             style={{
-               color: "#28a745",
-               fontSize: "18px",
-             }}
-           >
-             Saved
-           </Button>
-            
-            }
-             
-
-              {localStorage.getItem("user_id")==userId &&
-              <>
+              {!savedPost.includes(post.post_id) ? (
                 <Button
-                     icon={<EditOutlined />}
-                      onClick={() => {
-                        setUpdateClicked(true);
-                        setPostId(post.post_id);
-                      }}
-                      className="update-button"
-                    >
-                      Update
-                    </Button>
-              <Button
-                      icon={<DeleteOutlined />}
-                      danger
-                      onClick={() => handleDelete(post.post_id)}
-                    >
-                      Delete
-                    </Button>
-              
-              </>
-              }
-            
+                  icon={<SaveOutlined />}
+                  type="link"
+                  onClick={() => handleAddSave(post.post_id)}
+                  style={{
+                    color: "#28a745",
+                    fontSize: "18px",
+                  }}
+                >
+                  Save
+                </Button>
+              ) : (
+                <Button
+                  icon={<SaveOutlined />}
+                  type="link"
+                  disabled
+                  style={{
+                    color: "#28a745",
+                    fontSize: "18px",
+                  }}
+                >
+                  Saved
+                </Button>
+              )}
 
-                  
+              {localStorage.getItem("user_id") == userId && (
+                <>
+                  <Button
+                    icon={<EditOutlined />}
+                    onClick={() => {
+                      setUpdateClicked(true);
+                      setPostId(post.post_id);
+                    }}
+                    className="update-button"
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    icon={<DeleteOutlined />}
+                    danger
+                    onClick={() => handleDelete(post.post_id)}
+                  >
+                    Delete
+                  </Button>
+                </>
+              )}
+
               {/* زر الحفظ */}
-             
 
               {/* زر التعديل */}
               {post?.user_id === userId && (

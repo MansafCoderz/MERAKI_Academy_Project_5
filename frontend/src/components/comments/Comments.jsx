@@ -10,12 +10,9 @@ import { Modal } from 'antd';
 import { ExclamationCircleFilled } from "@ant-design/icons";
 const { confirm } = Modal;
 
-import Like from "../likes/Like";
-import { HeartFilled } from "@ant-design/icons";
+
 
 const Comments = () => {
-  const user_id = localStorage.getItem('user_id')
-  const [editingCommentId, setEditingCommentId] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [newComment, setNewComment] = useState("");
   const posts = useSelector((reducer) => {
@@ -23,19 +20,16 @@ const Comments = () => {
     return reducer.posts.posts;
   });
 
-  // console.log(posts);
   
   const postIdByParams=useParams().id
   
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const postId = localStorage.getItem("postId") || postIdByParams;
-  // console.log(postId);
   
   const post = posts.filter((elem, ind) => {
     return elem.post_id == postId;
   });
- //console.log(posts);
 
   const dispatch = useDispatch();
   const comments = useSelector((reducers) => {
@@ -234,7 +228,6 @@ const Comments = () => {
             </div>
             <Button
               onClick={() => {
-                // handleDeleteComment(comment.comment_id);
                 showPromiseConfirmSoftDeleted(comment.comment_id)
               }}
             >

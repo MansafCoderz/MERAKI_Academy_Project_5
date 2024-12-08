@@ -4,8 +4,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import AdminSide from "./AdminSide";
-import axios from "axios";
-import { getAllUsers } from "../../redux/reducers/sliceUser";
 
 const AdminDashBoard = () => {
   const navigate = useNavigate();

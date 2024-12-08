@@ -1,10 +1,7 @@
-const express=require("express")
-const messageRouter=express.Router()
-const authentication = require("../middleware/authentication")
-const { getMessages} = require("../controllers/messages")
+const express = require("express");
+const messageRouter = express.Router();
+const { getMessages } = require("../controllers/SendMessage");
 
-messageRouter.get("/:senderId/:receiverId",getMessages)
+messageRouter.get("/:senderId/:receiverId", getMessages);
 
-
-
-module.exports=messageRouter
+module.exports = messageRouter;

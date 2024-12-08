@@ -12,7 +12,7 @@ import Comments from "./components/comments/Comments";
 import SearchBar from "./components/search/Search";
 import Followers from "./components/profile/Followers";
 import NextStep from "./components/forgetPassword/NextStep";
-import SavedPost from "./components/saved Post/savedPost";
+import SavedPost from "./components/saved Post/SavedPost";
 import Edit from "./components/profile/Edit";
 import AdminDashBoard from "./components/AdminPanel/AdminDashBoard/AdminDashBoard";
 import AdminUsers from "./components/AdminPanel/AdminUsers/AdminUsers";
@@ -29,7 +29,6 @@ import SecuritySettings from "./components/setting/UpdateSecuritySettings";
 import ContactUs from "./components/setting/ContactUs";
 import AdminComments from "./components/AdminPanel/AdminPosts/adminComments/AdminComments";
 import Explore from "./components/explore/Explore";
-import ChatMessages from "./components/messages/ChatMessages";
 import io from "socket.io-client";
 
 
@@ -42,9 +41,7 @@ function App() {
   const toggleTheme = (e) => {
     setTheme(e.target.value);
   };
-  useEffect(() => {
-    console.log(token , useId);
-    
+  useEffect(() => {    
     const socketConnection = io("http://localhost:5000", {
       extraHeaders: {
         user_id,
@@ -63,7 +60,7 @@ function App() {
       socketConnection?.removeAllListeners();
       socketConnection?.disconnect();
     };
-  }, []);
+  }, [user_id]);
 
 
   let element = useRoutes([

@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import Side from "./Side";
 import { CloseCircleOutlined, SearchOutlined } from "@ant-design/icons"; // استيراد أيقونة البحث
 import Chat from "../messages/Chat";
 
-import { Input, List, Avatar, Button, FloatButton, message } from "antd";
+import {  List, Avatar } from "antd";
 import VirtualList from "rc-virtual-list";
 const fakeDataUrl =
   "https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo";
 const ContainerHeight = 400;
-import { QuestionCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
 import Notification from "../messages/Notification";
 
 const Home = ({ socket }) => {
   const [display, setdisplay] = useState(false);
   const [data, setData] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const userId = localStorage.getItem("user_id");
   const token = localStorage.getItem("token");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState(""); // حالة لحفظ النص المدخل
   const [isSearching, setIsSearching] = useState(false); // حالة لتحديد إذا كان يتم البحث
@@ -46,7 +41,6 @@ const Home = ({ socket }) => {
       })
       .then((result) => {
         setData(result.data.User);
-        // dispatch(getAllUsers(result.data.Users))
       })
       .catch((err) => {
         console.log(err);

@@ -3,12 +3,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { Card, Button, Row, Col, Avatar, Typography, Space } from "antd";
-import {
-  // setFollowers,
-  // setFollowing,
-  unFollow,
-  removeFollower,
-} from "../redux/reducers/sliceFollowers";
+import { unFollow, removeFollower } from "../redux/reducers/sliceFollowers";
 import "./follower.css";
 
 const { Text } = Typography;
@@ -20,18 +15,13 @@ const Followers = () => {
   const { token, visitUser } = useSelector((state) => state.auth);
   const [following, setFollowing] = useState([]);
   const [follower, setFollower] = useState([]);
-  // const following = useSelector((state) => state.followers.following);
-  // const follower = useSelector((state) => state.followers.myFollowers);
 
   const userId = visitUser ? visitUser : localStorage.getItem("user_id");
-
-  // console.log(following);
 
   useEffect(() => {
     const url = show
       ? `http://localhost:5000/followers/${userId}/following`
       : `http://localhost:5000/followers/${userId}/follower`;
-    // console.log(url);
 
     axios
       .get(url, {
@@ -40,13 +30,10 @@ const Followers = () => {
         },
       })
       .then((result) => {
-        console.log(result);
-        console.log(show);
-        
         show ? setFollowing(result.data.data) : setFollower(result.data.data);
       })
       .catch((err) => console.log(err));
-  }, [userId ,show,follower,following]);
+  }, [userId, show, follower, following]);
 
   const handleUnfollow = (id) => {
     const url = show
@@ -90,22 +77,20 @@ const Followers = () => {
             </Link>
           </Space>
 
-          {/* {userId === (isFollowing ? elem.following_id : elem.follower_id) && (
-          )} */}
-
-          {userId==localStorage.getItem("user_id") &&
-          <Button
-          type="primary"
-          danger
-          shape="round"
-          onClick={() =>
-            handleUnfollow(isFollowing ? elem.following_id : elem.follower_id)
-          }
-        >
-          {isFollowing ? "Unfollow" : "Remove"}
-        </Button>
-          }
-          
+          {userId == localStorage.getItem("user_id") && (
+            <Button
+              type="primary"
+              danger
+              shape="round"
+              onClick={() =>
+                handleUnfollow(
+                  isFollowing ? elem.following_id : elem.follower_id
+                )
+              }
+            >
+              {isFollowing ? "Unfollow" : "Remove"}
+            </Button>
+          )}
         </div>
       ))}
     </div>

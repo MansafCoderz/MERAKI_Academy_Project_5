@@ -22,10 +22,12 @@ const Side = () => {
   const [showSettings, setShowSettings] = useState(false);
 
   const handleLogout = () => {
-    dispatch(Logout());
     axios
       .put(`http://localhost:5000/users/isNotlogin/false/${userId}`, {})
-      .then((result) => {})
+      .then((result) => {
+    dispatch(Logout());
+
+      })
       .catch((err) => {
         console.log(err);
       });

@@ -8,8 +8,8 @@ export const postsSlice = createSlice({
     setPosts: (state, action) => {
       state.posts = action.payload
     },
-    createPost: (state, action) => {
-      state.posts.push(action.payload);
+    createPost: (state, action) => {      
+      state.posts?.push(action.payload);
     },
     updatePost: (state, action) => {
       const postById = state.posts.map((elem, i) => {

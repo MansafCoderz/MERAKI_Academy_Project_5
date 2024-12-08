@@ -3,7 +3,6 @@ import { Button, Card } from "antd";
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { getAllUsers } from "../../../redux/reducers/sliceUser";
 import { setPosts } from "../../../redux/reducers/slicePosts";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveFunnel } from "@nivo/funnel";
@@ -33,25 +32,6 @@ const AdminHome = () => {
   });
   
   useEffect(() => {
-    // axios
-    //   .get("http://localhost:5000/users/admin/all", {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   })
-    //   .then((res) => {
-
-    //     dispatch(getAllUsers(res.data.Users));
-    //     // const AdminProfile = res.data.Users.find((user) => {
-    //     //   return user.role_id === 1;
-    //     // });
-    //     // // console.log(admin);
-    //     // setAdmin(AdminProfile);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
     axios
       .get("http://localhost:5000/reacts/likesAll", {
         headers: {
@@ -59,12 +39,12 @@ const AdminHome = () => {
         },
       })
       .then((result) => {
-        // console.log(result);
         setLikes(result.data.likes);
       })
       .catch((err) => {
         console.log(err);
       });
+
     axios
       .get("http://localhost:5000/comments/", {
         headers: {
@@ -72,8 +52,7 @@ const AdminHome = () => {
         },
       })
       .then((result) => {
-        // console.log(result);
-        setComments(result.data.data);
+        setComments(result.data.data || []);
       })
       .catch((err) => {
         console.log(err);
@@ -85,19 +64,17 @@ const AdminHome = () => {
         },
       })
       .then((result) => {
-        // console.log(result.data.data);
         setGrowth(result.data.data);
         setFollowers(
           result.data.data[result.data.data.length - 1].cumulative_followers
         );
+        
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [posts]);
 
-  useEffect(() => {
-    axios
+      axios
       .get("http://localhost:5000/posts", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -114,7 +91,8 @@ const AdminHome = () => {
         console.log(err);
       });
   }, [posts]);
-  // console.log(posts.length);
+
+
   const FemaleUsers = users.filter((user) => {
     return user.gender == "female";
   });
@@ -129,7 +107,6 @@ const AdminHome = () => {
     (growth[growth.length - 1]?.new_followers -
       growth[growth.length - 2]?.new_followers) /
     growth[growth.length - 2]?.new_followers;
-  // console.log(Follower_Growth);
 
   const data = [
     {
@@ -187,7 +164,7 @@ const AdminHome = () => {
     },
     {
       id: "Follower Growth",
-      value: Follower_Growth || 0,
+      value: Math.abs(Follower_Growth) || 0,
       label: "Follower Growth",
     },
   ];
