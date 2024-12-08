@@ -5,15 +5,13 @@ import { Logout } from "../../redux/reducers/auth";
 import "./dashBoard.css";
 import axios from "axios";
 import { BiSolidDashboard } from "react-icons/bi";
-import { BiSolidUser } from "react-icons/bi";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
-
 import { BiSolidReport } from "react-icons/bi";
 import { AiTwotoneFileAdd } from "react-icons/ai";
 import { FaUsers } from "react-icons/fa6";
 import { getAllUsers } from "../../redux/reducers/sliceUser";
 import { BsPersonLinesFill } from "react-icons/bs";
-import { Button } from "antd";
+
 const AdminSide = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -167,30 +165,3 @@ const AdminSide = () => {
 };
 
 export default AdminSide;
-
-{
-  /* <img src='../../../Preview.png'/>
-        <div>
-        <div>
-            <h3 onClick={(e)=>{
-                navigate('./users')
-            }}>Users : {users.length}</h3>
-        </div>
-        <div>
-            <h3 onClick={(e)=>{
-                navigate('./posts')
-            }}>Posts : {posts?.length || 0}</h3>
-        </div>
-        <div>
-            <h3 onClick={(e)=>{
-                navigate('./Is/Login')
-            }}>Is Login : {isLogin.length}</h3>
-        </div>
-        <div>
-            <h3 onClick={(e)=>{
-                navigate('./Reports')
-            }}>Reports</h3>
-        </div>
-        </div>
-        <Outlet /> */
-}

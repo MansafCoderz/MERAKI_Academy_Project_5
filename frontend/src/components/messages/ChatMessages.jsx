@@ -2,7 +2,6 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Input } from "antd";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import moment from "moment-timezone";
 
 const ChatMessages = ({ socket, to, setShow }) => {
@@ -20,7 +19,6 @@ const ChatMessages = ({ socket, to, setShow }) => {
   const [allMsgs, setAllMsgs] = useState([]);
   const token = localStorage.getItem("token");
   const [allUsers, setAllUsers] = useState([]);
-  // console.log(loggedInUser);
   const [messageTimeShow, setMessageTimeShow] = useState({ show: 0 });
 
   useEffect(() => {
@@ -31,7 +29,6 @@ const ChatMessages = ({ socket, to, setShow }) => {
   }, [allMsgs]);
 
   const receive = (data) => {
-    console.log(data);
     setAllMsgs([...allMsgs, data]);
   };
 
@@ -91,7 +88,7 @@ const ChatMessages = ({ socket, to, setShow }) => {
   };
 
   const handleClick = (id) => {
-    if (messageTimeShow.show !=id) {
+    if (messageTimeShow.show != id) {
       setMessageTimeShow({ show: id });
     } else {
       setMessageTimeShow({ show: 0 });
@@ -122,23 +119,31 @@ const ChatMessages = ({ socket, to, setShow }) => {
                 }
               >
                 <div className="span_profile">
-               
-
                   {allUsers?.map((user) => {
                     if (
                       user.user_id == message.sender &&
                       user.user_id != userId
                     ) {
                       return (
-                        <div className="Message-Info"
+                        <div
+                          className="Message-Info"
                           style={{ display: "flex", flexDirection: "column" }}
                         >
-                          <div >
-                          {messageTimeShow.show == message.message_id ?  <p className={message.sender != userId ? "Message-Time" : "Message-Time-you"}>{formatRelativeTime(message.created_at)}</p> : null}
+                          <div>
+                            {messageTimeShow.show == message.message_id ? (
+                              <p
+                                className={
+                                  message.sender != userId
+                                    ? "Message-Time"
+                                    : "Message-Time-you"
+                                }
+                              >
+                                {formatRelativeTime(message.created_at)}
+                              </p>
+                            ) : null}
                             <img
                               className="userPic-Message"
                               src={message.profile_image}
-
                             />
 
                             <h4
@@ -154,12 +159,12 @@ const ChatMessages = ({ socket, to, setShow }) => {
                                 ? "Message-Chat-you"
                                 : "Message-Chat"
                             }
-                            onClick={()=>{handleClick(message.message_id)}}
+                            onClick={() => {
+                              handleClick(message.message_id);
+                            }}
                           >
                             {message.message_text}
                           </div>
-                         
-
                         </div>
                       );
                     } else if (
@@ -167,16 +172,22 @@ const ChatMessages = ({ socket, to, setShow }) => {
                       user.user_id == userId
                     ) {
                       return (
-                        <div
-                        className="you"
-                       
-                        >
+                        <div className="you">
                           <div className="userAndImg">
-                          {messageTimeShow.show == message.message_id ?  <p className={message.sender != userId ? "Message-Time" : "Message-Time-you"}>{formatRelativeTime(message.created_at)}</p> : null}
+                            {messageTimeShow.show == message.message_id ? (
+                              <p
+                                className={
+                                  message.sender != userId
+                                    ? "Message-Time"
+                                    : "Message-Time-you"
+                                }
+                              >
+                                {formatRelativeTime(message.created_at)}
+                              </p>
+                            ) : null}
                             <img
                               className="userPic-Message"
                               src={message.profile_image}
-                             
                             />
                             <h4
                               key={user.user_id}
@@ -191,12 +202,12 @@ const ChatMessages = ({ socket, to, setShow }) => {
                                 ? "Message-Chat-you"
                                 : "Message-Chat"
                             }
-                            onClick={()=>{handleClick(message.message_id)}}
+                            onClick={() => {
+                              handleClick(message.message_id);
+                            }}
                           >
                             {message.message_text}
-                          
                           </div>
-                          
                         </div>
                       );
                     }

@@ -1,24 +1,18 @@
 const { pool } = require("../models/db");
+
 const createPost = async (req, res) => {
-
-
-
-  const { body, image, video} = req.body;
-
-
+  const { body, image, video } = req.body;
   const user_id = req.token.userId;
 
   const query = `INSERT INTO POSTS (body , image , video ,user_id) VALUES ($1,$2,$3,$4) RETURNING *`;
-  const data = [body, image, video,user_id];
+  const data = [body, image, video, user_id];
   pool
     .query(query, data)
     .then((result) => {
-
-      
       res.status(201).json({
         success: true,
         message: "Post Created Successfully",
-        post : result.rows
+        post: result.rows,
       });
     })
     .catch((error) => {
@@ -211,7 +205,7 @@ const savePost = async (req, res) => {
   }
 };
 
-const getSavedPots = async (req, res) => {
+const getSavedPosts = async (req, res) => {
   const user_id = req.token.userId;
   const query = `select * from savedPost s
 inner join posts po on s.post_id=po.post_id 
@@ -226,7 +220,6 @@ where s.user_id=$1 `;
       saved_posts: result.rows,
     });
   } catch (error) {
-
     res.status(500).json({
       success: false,
       message: "InValid Move",
@@ -235,13 +228,13 @@ where s.user_id=$1 `;
   }
 };
 
-const removeFromSaved = async(req, res) => {
+const removeFromSaved = async (req, res) => {
   const user_id = req.token.userId;
   const post_id = req.params.id;
 
-  const query=`DELETE FROM savedPost where post_id=$1 AND user_id=$2 RETURNING*`
+  const query = `DELETE FROM savedPost where post_id=$1 AND user_id=$2 RETURNING*`;
   try {
-    const result= await pool.query(query,[post_id,user_id])
+    const result = await pool.query(query, [post_id, user_id]);
     res.status(200).json({
       success: true,
       message: "successfully deleted",
@@ -264,7 +257,7 @@ module.exports = {
   updatePostById,
   SoftDeletePostById,
   hardDeletedPostById,
-  getSavedPots,
+  getSavedPosts,
   savePost,
-  removeFromSaved
+  removeFromSaved,
 };

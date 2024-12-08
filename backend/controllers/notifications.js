@@ -1,7 +1,7 @@
 const { pool } = require("../models/db");
 
 const notify = (socket) => {
-  socket.on("notification", async (data) => {
+  socket.on("notification", async (data) => {    
     const userId = socket.handshake.headers.user_id;
     const query = `INSERT INTO notifications (sender,receiver,action)
         VALUES ($1,$2,$3) RETURNING*`;

@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./users.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Button } from "antd";
 import axios from "axios";
 import {
-  getAllUsers,
   SoftDeleteUserById,
   updateUserById,
 } from "../../redux/reducers/sliceUser";
@@ -19,22 +18,8 @@ const AdminUsers = () => {
   });
   const token = localStorage.getItem("token");
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:5000/users/admin/all", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       dispatch(getAllUsers(res.data.Users));
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, [users]);
 
-  // de active user
+  // deactivate user
   const handleDeactivate = async (id) => {
     try {
       const deactivate = await axios.put(
@@ -85,11 +70,9 @@ const AdminUsers = () => {
       console.log(error);
     }
   };
-  // console.log(users);
   const showedUser = users.filter((user) => {
     return user.role_id != 1;
   });
-  // console.log(showedUser);
   const showDeleteConfirm = (id) => {
     confirm({
       title: "Are you sure delete this user?",

@@ -81,10 +81,7 @@ const Posts = () => {
         },
       })
       .then((res) => {
-        // console.log();
-
         dispatch(setPosts(res.data.data));
-        // console.log(res);
       })
       .catch((err) => {
         console.error(err);
@@ -137,14 +134,7 @@ const Posts = () => {
       );
     }
   };
-  const formatRelativeTime = (timestamp) => {
-    const date = new Date(timestamp);
-    const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    const localTime = moment.utc(date);
 
-    return localTime.fromNow();
-  };
   const handleUpdatePost = (postId) => {
     axios
       .put(
@@ -226,7 +216,7 @@ const Posts = () => {
       const index = fileList.indexOf(file);
       const newFileList = fileList.slice();
       fileList.splice(index, 1);
-      setFileList(fileList);
+      setFileList([]);
     },
     beforeUpload: (file) => {
       setFileList([...fileList, file]);
@@ -259,7 +249,7 @@ const Posts = () => {
       const index = videoList.indexOf(video);
       const newFileList = videoList.slice();
       videoList.splice(index, 1);
-      setVideoList(videoList);
+      setVideoList([]);
       setAddPost({ ...addPost, video: null });
     },
     beforeUpload: (video) => {
@@ -267,11 +257,7 @@ const Posts = () => {
       return false;
     },
     onChange: (video) => {
-      console.log(video);
-      console.log(videoList);
-
-      console.log(addPost);
-      if (!videoList[0]) return;
+        if (!videoList[0]) return;
 
       const data = new FormData();
       data.append("file", videoList[0]);

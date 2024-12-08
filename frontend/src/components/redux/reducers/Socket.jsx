@@ -19,6 +19,3 @@ export const {
 
 export default sliceSocket.reducer;
 
-export const init=()=> async()=>{
-
-}

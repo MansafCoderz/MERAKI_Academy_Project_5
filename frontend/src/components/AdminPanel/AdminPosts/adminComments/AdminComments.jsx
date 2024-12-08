@@ -54,7 +54,6 @@ const AdminComments = ({ id, setIsVisible }) => {
         
       });
   };
-// console.log(comments);
 
   const showPromiseConfirmSoftDeleted = (id) => {
     confirm({
@@ -105,7 +104,6 @@ const AdminComments = ({ id, setIsVisible }) => {
             </div>
             <Button
               onClick={() => {
-                // handleDeleteComment(comment.comment_id);
                 showPromiseConfirmSoftDeleted(comment.comment_id)
               }}
             >

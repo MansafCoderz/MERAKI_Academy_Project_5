@@ -8,14 +8,14 @@ const Explore = ({socket}) => {
   const dispatch = useDispatch();
   const [following, setFollowing] = useState([]);
 
-  const { token, userId } = useSelector((state) => {
+  const { token } = useSelector((state) => {
     return state.auth;
   });
 
   const AllUsers = useSelector((state) => {
     return state.users.users;
   });
-
+const userId=localStorage.getItem("user_id")
   const users = AllUsers.filter((user) => {
     return user.role_id !== 1;
   });
@@ -48,7 +48,7 @@ const Explore = ({socket}) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [following]);
+  }, []);
 
   const handFollow = (id) => {
 
@@ -65,8 +65,11 @@ const Explore = ({socket}) => {
       .then((res) => {
         setFollowing([...following, id]);
         const noteTo =AllUsers.find((user=>{
-          return user.user_id==id
+          return user.user_id==userId
         }))  
+        console.log(noteTo.user_name);
+        console.log(id);
+        
         socket.emit("notification",{message:`${noteTo.user_name} started following you` , from:userId, to:id})
       })
       .catch((err) => {
@@ -85,11 +88,11 @@ const Explore = ({socket}) => {
               <div key={user.user_id} className="user-card">
                 <img
                   src={user.profile_image || "/default-avatar.png"}
-                  alt={`${user.user_name} ${user.last_name}`}
+                  alt={`${user.user_name} ${user.last_name }`}
                   className="user-avatar"
                 />
                 <div className="user-info">
-                  <h3 className="user-name">{`${user.user_name} ${user.last_name}`}</h3>
+                  <h3 className="user-name">{`${user.user_name} ${user.last_name==null ? "" :user.last_name}`}</h3>
                   <p className="user-username">@{user.user_name}</p>
                 </div>
                 <button

@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Button } from "antd";
 import axios from "axios";
 import { deletePost, setPosts } from "../../redux/reducers/slicePosts";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AdminComments from "./adminComments/AdminComments";
-import { Modal, Space } from 'antd';
+import { Modal } from 'antd';
 import { ExclamationCircleFilled } from "@ant-design/icons";
 const { confirm } = Modal;
 

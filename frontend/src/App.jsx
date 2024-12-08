@@ -29,7 +29,6 @@ import SecuritySettings from "./components/setting/UpdateSecuritySettings";
 import ContactUs from "./components/setting/ContactUs";
 import AdminComments from "./components/AdminPanel/AdminPosts/adminComments/AdminComments";
 import Explore from "./components/explore/Explore";
-import ChatMessages from "./components/messages/ChatMessages";
 import io from "socket.io-client";
 
 
@@ -42,9 +41,7 @@ function App() {
   const toggleTheme = (e) => {
     setTheme(e.target.value);
   };
-  useEffect(() => {
-    console.log(token , useId);
-    
+  useEffect(() => {    
     const socketConnection = io("http://localhost:5000", {
       extraHeaders: {
         user_id,
@@ -63,7 +60,7 @@ function App() {
       socketConnection?.removeAllListeners();
       socketConnection?.disconnect();
     };
-  }, []);
+  }, [user_id]);
 
 
   let element = useRoutes([

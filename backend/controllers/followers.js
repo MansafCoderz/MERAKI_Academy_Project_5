@@ -8,7 +8,7 @@ const followUser = async (req, res) => {
 
   try {
     const result = await pool.query(
-      `INSERT INTO followers(follower_id,following_id,followed_at) VALUES($1,$2,NOW())RETURNING *`,
+      `INSERT INTO followers(follower_id,following_id) VALUES($1,$2)RETURNING *`,
       [follower_id, following_id]
     );
     res.status(201).json({
@@ -23,11 +23,7 @@ const followUser = async (req, res) => {
   }
 };
 
-// Unfollow a user
 const removeFollower = async (req, res) => {
-  // const follower_id = req.token.userId;
-  // const following_id = req.params.user_id;
-
   const following_id = req.token.userId;
   const follower_id = req.params.user_id;
 
@@ -48,12 +44,9 @@ const removeFollower = async (req, res) => {
     res.status(500).json({ message: "Error unfollowing user", error });
   }
 };
+
+// Unfollow a user
 const unfollowUser = async (req, res) => {
-  // console.log("hi");
-
-  // const following_id = req.token.userId;
-  // const follower_id = req.params.user_id;
-
   const follower_id = req.token.userId;
   const following_id = req.params.user_id;
 
@@ -104,7 +97,6 @@ const getFollowers = async (req, res) => {
 
 // Get list of followers for admin panel
 const getAllFollowers = async (req, res) => {
-  const user_id = req.params.user_id;
   const query = ` SELECT
     DATE(followed_at) AS day,
     COUNT(DISTINCT follower_id) AS new_followers,
@@ -140,8 +132,6 @@ const getFollowing = async (req, res) => {
     const result = await pool.query(query, [id]);
 
     if (result.rows.length) {
-      
-      
       res.status(200).json({
         message: "Following List retrieved successfully",
         data: result.rows,
@@ -234,16 +224,7 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-// const getPostsByFollowers = (req,res)=>{
-//   const follower_id = req.params.follower_id
-//   const query = `SELECT * FROM followers INNER JOIN
-//   users ON followers.following_id = users.user_id
-//   OR followers.follower_id = users.user_id
-//   INNER JOIN posts ON users.user_id = posts.user_id
-//   WHERE followers.follower_id = $1 AND posts.is_deleted=$2
-//   `
-//   pool.query(query,[follower_id,0]).then((result)=>{
-//     console.log(result.rows);
+
 
 const getPostsByFollowers = (req, res) => {
   const id = req.params.userId;
